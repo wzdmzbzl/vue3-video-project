@@ -1,0 +1,1 @@
+import { IconifyIcon } from "./src/IconifyIcon"

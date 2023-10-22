@@ -1,8 +1,10 @@
-import { createApp } from 'vue'
-import { setupStore } from "./store"
-import App from './App.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import pinia from "@/store/index";
+// import "@/router/initDynamicRouter"
 
-
-const app = createApp(App)
-setupStore(app)
-app.mount("#app")
+const app = createApp(App);
+app.use(router);
+app.use(pinia);
+app.mount("#app");
