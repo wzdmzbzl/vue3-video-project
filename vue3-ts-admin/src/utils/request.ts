@@ -78,10 +78,10 @@ const request = axios.create({
 });
 
 // 请求拦截器
-request.interceptors.request.use((config: AxiosRequestConfig) => {
+request.interceptors.request.use((config: any) => {
   const token = useUserStore().token;
   if (token) {
-    config.headers.token = token;
+    config.headers!.token = token;
   }
   removeRequestKey(config); // 删除key
   addRequestKey(config); // 添加key
@@ -103,7 +103,7 @@ request.interceptors.response.use(
       } else {
         errMessage = response.data.message;
       }
-      ElMessage.console.error(errMessage);
+      ElMessage.error(errMessage);
       return Promise.reject(errMessage);
     }
   },

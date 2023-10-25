@@ -2,7 +2,6 @@
 import { defineStore } from "pinia"
 import { AuthState } from "./model/authModel"
 import { AuthInfo } from "../../api/login/types"
-import { MenuEmits } from "element-plus"
 
 export const useAuthStore = defineStore({
   // id: 必须的, 在所有的Store中唯一
@@ -34,7 +33,7 @@ export const useAuthStore = defineStore({
       this.authButtonList = authInfo.buttons
       this.authRouterList = authInfo.routes
     },
-    setAuthMenuList(list: Menu.MenuOptions[]) {
+    setAuthMenuList(list: any) {
       this.authMenuList = list
     }
   }

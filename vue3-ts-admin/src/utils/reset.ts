@@ -1,13 +1,13 @@
 // 重置用户信息
 
-// import { useUserStore } from '@/store/modules/user'
-import { useAuthStore } from '@/store/modules/auth'
+import { useUserStore } from "@/store/modules/user";
+import { useAuthStore } from "@/store/modules/auth";
 export function RESEETSTORE() {
-  const userStore = useUserStore()
-  const authStore = useAuthStore()
+  const userStore = useUserStore();
+  const authStore = useAuthStore();
 
-  userStore.$reset()
-  authStore.$reset()
+  userStore.$reset();
+  authStore.$reset();
   // 清除用户信息缓存
-  localStorage.removeItem('app-user')
+  localStorage.removeItem("app-user");
 }
