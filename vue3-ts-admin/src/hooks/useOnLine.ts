@@ -2,7 +2,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 
 // 用户网络是否可用
 
-export function useOnLine() {
+export function useOnline() {
   const online = ref(true);
   const showStatus = (val: any) => {
     online.value = typeof val === "boolean" ? val : val.target.online;

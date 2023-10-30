@@ -8,18 +8,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
-import { useTheme } from './hooks/useTheme'
-import { useScreenLockStore } from '@/store/modules/screenLock'
+import { computed } from "vue";
+import { useTheme } from "./hooks/useTheme";
+import { useScreenLockStore } from "@/store/modules/screenLock";
 
 // 锁屏
-const screenLock = useScreenLockStore()
-const isLock = computed(() => screenLock.isLocked)
+const screenLock = useScreenLockStore();
+const isLock = computed(() => screenLock.isLocked);
 
 // 初始化配置主题
-const { initTheme } = useTheme()
-initTheme()
-
+const { initTheme } = useTheme();
+initTheme();
 </script>
 
 <style scoped></style>

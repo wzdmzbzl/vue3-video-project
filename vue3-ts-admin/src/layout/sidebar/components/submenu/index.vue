@@ -50,7 +50,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-    function handleClickMenu(subItem: Menu.MenuOptions) {
+    function handleClickMenu(subItem: any) {
       // 跳转外部连接
       if(subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank')
       router.push(subItem.path)

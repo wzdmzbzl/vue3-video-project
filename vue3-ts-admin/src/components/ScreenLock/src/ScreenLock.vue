@@ -2,7 +2,7 @@
   <div
     :class="{ onLockLogin: showLogin }"
     class="lockscreen"
-    @keyup="onLockLogin"
+    @click="onLockLogin"
     @mousedown.stop
     @contextmenu.prevent
   >
@@ -70,7 +70,7 @@
 <script lang="ts">
 import { defineComponent, toRefs, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useOnline } from "@/hooks/useOnline";
+import { useOnline } from "@/hooks/useOnLine";
 import { useTime } from "@/hooks/useTime";
 import { useBattery } from "@/hooks/useBattery";
 import { useScreenLockStore } from "@/store/modules/screenLock";
@@ -110,7 +110,7 @@ export default defineComponent({
     });
 
     // 解锁登录
-    const onLockLogin = (value: boolean) => (state.showLogin = value);
+    const onLockLogin = (value: any) => (state.showLogin = value);
 
     // 登录
     const onLogin = async () => {

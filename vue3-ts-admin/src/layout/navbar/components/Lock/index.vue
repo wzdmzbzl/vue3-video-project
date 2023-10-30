@@ -1,10 +1,3 @@
-<!--
- * @Author: 朽木白
- * @Date: 2023-06-30 08:39:20
- * @LastEditors: 1547702880@@qq.com
- * @LastEditTime: 2023-06-30 08:43:46
- * @Description: 锁屏
--->
 
 <template>
   <div class="btn">

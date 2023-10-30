@@ -1,1 +1,3 @@
-import { IconifyIcon } from "./src/IconifyIcon"
+import IconifyIcon  from "./src/IconifyIcon"
+
+export default IconifyIcon

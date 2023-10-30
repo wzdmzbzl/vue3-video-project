@@ -12,7 +12,7 @@ export const useSettingsStore = defineStore({
       isDark: false,
     },
   }),
-
+ 
   actions: {
     changeCollapse() {
       // this.collapse = !this.collapse;

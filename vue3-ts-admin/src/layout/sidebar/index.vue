@@ -4,10 +4,10 @@
 
     <el-scrollbar>
       <el-menu
-        --bg-color="#001529"
-        --text-color="hsla(0, 0%, 100%, .65)"
-        --active-color="#fff"
-        defaultActive="activeMenu"
+        background-color="#001529"
+        text-color="hsla(0,0%,100%,.65)"
+        active-text-color="#fff"
+        :defaultActive="activeMenu"
         :collapse="collapse"
         :unique-opened="true"
       >
@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useSettingsStore } from "@/store/modules/setting";
+import { useSettingsStore } from "@/store/modules/settings";
 import { useAuthStore } from "@/store/modules/auth";
 import { useRoute } from "vue-router";
 import Logo from "./components/submenu/index.vue";
@@ -45,8 +45,8 @@ export default defineComponent({
       collapse,
       themeConfig,
       menuList,
-      activeMenu
-    }
+      activeMenu,
+    };
   },
 });
 </script>
