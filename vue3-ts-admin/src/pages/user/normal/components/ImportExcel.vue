@@ -1,36 +1,30 @@
 <template>
   <el-dialog
-    v-model="dialogVisible"
-    :title="`批量添加${parameter.title}`"
-    :destroy-on-close="true"
-    width="580px"
-    draggable
+    v-model="centerDialogVisible"
+    title="批量添加用户"
+    width="40%"
+    align-center
   >
     <el-form class="drawer-multiColumn-form" label-width="100px">
-      <el-form-item label="模板下载 :">
-        <el-button type="primary" :icon="Download" @click="downloadTemp">
-          点击下载
-        </el-button>
+      <el-form-item label="添加用户:">
+        <el-button type="primary" :icon="Download" @click="downloadTemp"
+          >点击下载</el-button
+        >
       </el-form-item>
-      <el-form-item label="文件上传 :">
+      <el-form-item label="文件上传:">
         <el-upload
+          class="upload-demo"
+          drag
           action="#"
-          :drag="true"
-          :limit="excelLimit"
-          :multiple="true"
-          :show-file-list="true"
+          multiple
           :http-request="uploadExcel"
           :before-upload="beforeExcelUpload"
           :on-exceed="handleExceed"
-          :on-success="excelUploadSuccess"
           :on-error="excelUploadError"
-          accept=".xlsx, .xls"
+          :on-success="excelUploadSuccess"
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">
-            将文件拖到此处，或
-            <em>点击上传</em>
-          </div>
+          <div class="el-upload__text">将文件拖到此处 <em>点击上传</em></div>
           <template #tip>
             <div class="el-upload__tip">请上传 .xls , .xlsx 标准格式文件</div>
             <div>* 由于apifox的限制，上传文件的接口不会响应成功</div>
@@ -38,66 +32,62 @@
         </el-upload>
       </el-form-item>
     </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">
+          确认
+        </el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
-<script setup lang="ts" name="ImportExcel">
-import { ref } from 'vue'
-import { Download } from '@element-plus/icons-vue'
-import { ElNotification } from 'element-plus'
-import { exportExcel } from '@/utils/exprotExcel'
-import { ColumnProps } from '@/components/ProTable/src/types'
-
-export interface ExcelParameterProps {
-  title: string // 标题
-  columns: ColumnProps[]
-  tempApi?: () => Promise<any> // 下载模板的Api
-  importApi?: (params: any) => Promise<any> // 批量导入的Api
-  getTableList?: () => Promise<any> // 获取表格数据的Api
-}
-
-// 是否覆盖数据
-// const isCover = ref(false)
-// 最大文件上传数
-const excelLimit = ref(1)
+<script setup lang="ts">
+import { ref } from "vue";
+import { Download } from "@element-plus/icons-vue";
+import { ElNotification } from "element-plus";
+import { exportExcel } from "@/utils/exprotExcel";
 // dialog状态
-const dialogVisible = ref(false)
-// 父组件传过来的参数
-const parameter = ref<Partial<ExcelParameterProps>>({
-  title: '',
-  columns: [],
-})
+const centerDialogVisible = ref(false);
 
-// 接收父组件参数
-const acceptParams = (params?: any): void => {
-  parameter.value = params
-  dialogVisible.value = true
-}
+// 父组件传过来的数据
+const parameter = ref<any>({
+  title: "",
+  normalList: [],
+  tempApi: () => {},
+  importApi: () => {},
+});
+const acceptParams = (params: any): void => {
+  parameter.value = params;
+  centerDialogVisible.value = true;
+  console.log(params);
+};
 
 // Excel 导入模板下载
 const downloadTemp = async () => {
-  if (!parameter.value.tempApi) return
-  const res = await parameter.value?.tempApi()
+  if (!parameter.value.tempApi) return;
+  const res = await parameter.value?.tempApi();
   exportExcel({
-    column: parameter.value.columns as ColumnProps[],
+    column: parameter.value.normalList as any[],
     data: res.data.list, // 表格渲染数据
-    filename: '导出 excel',
-    format: 'xlsx',
+    filename: "导出 excel",
+    format: "xlsx",
     autoWidth: true,
-  })
-}
+  });
+};
 
 // 文件上传
 const uploadExcel = async (param: any) => {
-  let excelFormData = new FormData()
-  excelFormData.append('file', param.file)
+  let excelFormData = new FormData();
+  excelFormData.append("file", param.file);
   // 携带其他参数
   // excelFormData.append('isCover', isCover.value as unknown as Blob)
   // 由于apifox的限制，上传文件的接口不会响应成功
-  await parameter.value.importApi!(excelFormData)
-  parameter.value.getTableList && parameter.value.getTableList()
-  dialogVisible.value = false
-}
+  await parameter.value.importApi!(excelFormData);
+  parameter.value.getTableList && parameter.value.getTableList();
+  centerDialogVisible.value = false;
+};
 
 /**
  * @description 文件上传之前判断
@@ -105,54 +95,55 @@ const uploadExcel = async (param: any) => {
  * */
 const beforeExcelUpload = (file: any) => {
   const isExcel =
-    file.type === 'application/vnd.ms-excel' ||
+    file.type === "application/vnd.ms-excel" ||
     file.type ===
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  const fileSize = file.size / 1024 / 1024 < 5
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  const fileSize = file.size / 1024 / 1024 < 5;
   if (!isExcel)
     ElNotification({
-      title: '温馨提示',
-      message: '上传文件只能是 xls / xlsx 格式！',
-      type: 'warning',
-    })
+      title: "温馨提示",
+      message: "上传文件只能是 xls / xlsx 格式！",
+      type: "warning",
+    });
   if (!fileSize)
     ElNotification({
-      title: '温馨提示',
-      message: '上传文件大小不能超过 5MB！',
-      type: 'warning',
-    })
-  return isExcel && fileSize
-}
+      title: "温馨提示",
+      message: "上传文件大小不能超过 5MB！",
+      type: "warning",
+    });
+  return isExcel && fileSize;
+};
 
 // 文件数超出提示
 const handleExceed = (): void => {
   ElNotification({
-    title: '温馨提示',
-    message: '最多只能上传一个文件！',
-    type: 'warning',
-  })
-}
+    title: "温馨提示",
+    message: "最多只能上传一个文件！",
+    type: "warning",
+  });
+};
 
 // 上传错误提示
 const excelUploadError = (): void => {
   ElNotification({
-    title: '温馨提示',
+    title: "温馨提示",
     message: `批量添加${parameter.value.title}失败，请您重新上传！`,
-    type: 'error',
-  })
-}
+    type: "error",
+  });
+};
 
 // 上传成功提示
 const excelUploadSuccess = (): void => {
   ElNotification({
-    title: '温馨提示',
+    title: "温馨提示",
     message: `批量添加${parameter.value.title}成功！`,
-    type: 'success',
-  })
-}
+    type: "success",
+  });
+};
 
 defineExpose({
   acceptParams,
-})
+});
 </script>
-<style lang="scss" scoped></style>
+
+<style scoped></style>
