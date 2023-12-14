@@ -34,7 +34,7 @@ export const reqSaveUser = (data: any) => {
 
 /** 下载excel模版 */
 export function downLoadExcelTemp() {
-  return http.get<PageRes<INormalMange.IResNormal>>(
+  return http.get<any>(
     `/admin/user/normal/downloadExcel`,
   )
 }
