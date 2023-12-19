@@ -1,40 +1,49 @@
 <template>
   <template v-for="subItem in menuList" :key="subItem.path">
-      <el-sub-menu v-if="subItem.children && subItem.children.length > 1" :index="subItem.path">
-        <template #title>
-          <el-icon>
-            <component :is="subItem.meta.icon"></component>
-          </el-icon>
-          <span>{{ subItem.meta.title }}</span>
-        </template>
-
-        <!-- 有children的递归本次组件 -->
-        <sub-menu :menuList="subItem.children"></sub-menu>
-      </el-sub-menu>
-
-      <el-menu-item v-else-if="subItem.children && subItem.children.length == 1" :index="subItem.children[0].path" 
-        @click="handleClickMenu(subItem.children[0])"
-      >
-        <el-icon>
-          <component :is="subItem.children[0].meta.icon"></component>
-        </el-icon>
-        <template #title>
-          <span>{{ subItem.children[0].meta.title }}</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
+    <el-sub-menu
+      v-if="subItem.children && subItem.children.length > 1"
+      :index="subItem.path"
+    >
+      <template #title>
         <el-icon>
           <component :is="subItem.meta.icon"></component>
         </el-icon>
-        <template #title>
-          <span>{{ subItem.meta.title }}</span>
-        </template>
-      </el-menu-item>
+        <span>{{ subItem.meta.title }}</span>
+      </template>
+
+      <!-- 有children的递归本次组件 -->
+      <sub-menu :menuList="subItem.children"></sub-menu>
+    </el-sub-menu>
+
+    <el-menu-item
+      v-else-if="subItem.children && subItem.children.length == 1"
+      :index="subItem.children[0].path"
+      @click="handleClickMenu(subItem.children[0])"
+    >
+      <el-icon>
+        <component :is="subItem.children[0].meta.icon"></component>
+      </el-icon>
+      <template #title>
+        <span>{{ subItem.children[0].meta.title }}</span>
+      </template>
+    </el-menu-item>
+    <el-menu-item
+      v-else
+      :index="subItem.path"
+      @click="handleClickMenu(subItem)"
+    >
+      <el-icon>
+        <component :is="subItem.meta.icon"></component>
+      </el-icon>
+      <template #title>
+        <span>{{ subItem.meta.title }}</span>
+      </template>
+    </el-menu-item>
   </template>
 </template>
 
 <script lang="ts">
-import { Menu } from "@element-plus/icons-vue"
+import { Menu } from "@element-plus/icons-vue";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
@@ -44,25 +53,22 @@ export default defineComponent({
     menuList: {
       type: Menu.MenuOptions,
       default: () => {
-        return []
-      }
-    }
+        return [];
+      },
+    },
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
     function handleClickMenu(subItem: any) {
       // 跳转外部连接
-      if(subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank')
-      router.push(subItem.path)
+      if (subItem.meta.isLink) return window.open(subItem.meta.isLink, "_blank");
+      router.push(subItem.path);
     }
     return {
-      handleClickMenu
-    }
-  }
-})
-
+      handleClickMenu,
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

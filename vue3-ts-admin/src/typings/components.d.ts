@@ -56,6 +56,7 @@ declare module 'vue' {
     GridItem: typeof import('./../components/Grid/src/components/GridItem.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     IconifyIcon: typeof import('./../components/IconifyIcon/index.vue')['default']
+    Modal: typeof import('./../components/Modal/src/Modal.vue')['default']
     Pagination: typeof import('./../components/ProTable/src/components/Pagination.vue')['default']
     PropTable: typeof import('./../components/ProTable/src/PropTable.vue')['default']
     ProTable: typeof import('./../components/ProTable/src/ProTable.vue')['default']

@@ -5,6 +5,7 @@ import ScreenLock from "./ScreenLock";
 import { SvgIcon } from "./SvgIcon";
 import { Grid, GridItem } from "./Grid";
 import SearchForm from "./SearchForm";
+import { Modal } from "./Modal";
 
 const Components: { [propName: string]: Component } = {
   IconifyIcon,
@@ -13,6 +14,7 @@ const Components: { [propName: string]: Component } = {
   Grid,
   SearchForm,
   GridItem,
+  Modal
 };
 
 export default {
