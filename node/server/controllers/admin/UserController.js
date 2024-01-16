@@ -32,6 +32,42 @@ const UserController = {
       });
     }
   },
+
+  upload: async (req, res) => {
+    const { username, introduction, gender } = req.body;
+    const token = req.headers["authorization"].split(" ")[1];
+    const avatar = req.file ? `/avataruploads/${req.file.filename}` : "";
+    var payload = JWT.verify(token);
+    // 调用service模块更新数据库
+    await UserService.upload({
+      _id: payload._id,
+      username,
+      introduction,
+      gender: Number(gender),
+      avatar,
+    });
+
+    if (avatar) {
+      res.send({
+        ActionType: "OK",
+        data: {
+          username,
+          introduction,
+          gender: Number(gender),
+          avatar,
+        },
+      });
+    } else {
+      res.send({
+        ActionType: "OK",
+        data: {
+          username,
+          introduction,
+          gender: Number(gender),
+        },
+      });
+    }
+  },
 };
 
 module.exports = UserController;

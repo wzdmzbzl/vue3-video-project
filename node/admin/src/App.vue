@@ -28,4 +28,7 @@ export default {
 ::-webkit-scrollbar-thumb {
   background-color: #1890ff;
 }
+.el-page-header {
+  margin: 20px;
+}
 </style>
