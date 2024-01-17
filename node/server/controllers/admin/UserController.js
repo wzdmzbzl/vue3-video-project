@@ -68,6 +68,45 @@ const UserController = {
       });
     }
   },
+
+  add: async (req, res) => {
+    const { username, introduction, gender, role, password } = req.body;
+    const avatar = req.file ? `/avataruploads/${req.file.filename}` : "";
+    // 调用service模块更新数据库
+    await UserService.add({
+      username,
+      introduction,
+      gender: Number(gender),
+      avatar,
+      password,
+      role: Number(role),
+    });
+    res.send({
+      ActionType: "OK",
+    });
+  },
+
+  getList: async (req, res) => {
+    const result = await UserService.getList(req.params);
+    res.send({
+      ActionType: "OK",
+      data: result,
+    });
+  },
+
+  delList: async (req, res) => {
+    const result = await UserService.delList({ _id: req.params.id });
+    res.send({
+      ActionType: "OK",
+    });
+  },
+
+  putList: async (req, res) => {
+    const result = await UserService.putList(req.body)
+    res.send({
+      ActionType: 'OK'
+    })
+  }
 };
 
 module.exports = UserController;

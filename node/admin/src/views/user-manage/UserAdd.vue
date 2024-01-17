@@ -47,6 +47,10 @@
 <script setup>
 import { ref, reactive } from "vue";
 import Upload from "@/components/upload/Upload";
+import { upload } from "@/util/upload";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 const userFormRef = ref();
 const options = [
   { label: "管理员", value: 1 },
@@ -60,6 +64,7 @@ const userForm = reactive({
   introduction: "",
   avatar: "",
   file: null,
+  gender: 0
 });
 
 const handleChange = (file) => {
@@ -68,9 +73,10 @@ const handleChange = (file) => {
 };
 
 const submitForm = () => {
-  userFormRef.value.validate((valid) => {
+  userFormRef.value.validate(async (valid) => {
     if(valid) {
-      console.log(userForm);
+      await upload("/adminapi/user/add", userForm)
+      router.push(`/user-manage/userlist`)
     }
   })
 }
