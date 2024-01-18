@@ -21,7 +21,8 @@
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0",
-    "vuex-persister": "^1.0.0"
+    "vuex-persister": "^1.0.0",
+    "wangeditor": "^4.7.15"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -33,6 +33,8 @@ router.beforeEach((to, from, next) => {
       });
     } else {
       if (!store.state.isGetterRouter) {
+        // 删除所有注册路由,再重新注册
+        router.removeRoute("mainBox")
         ConfigRouter();
         next({
           path: to.fullPath,
@@ -45,11 +47,27 @@ router.beforeEach((to, from, next) => {
 });
 
 const ConfigRouter = () => {
-  RoutesConfig.forEach((route) => {
-    router.addRoute("mainBox", route);
+
+  if(!router.hasRoute("mainBox")) {
+    router.addRoute({
+      path: "/mainBox",
+      name: "mainBox",
+      component: MainBox
+    })
+  }
+
+  RoutesConfig.forEach((item) => {
+    checkPermission(item) && router.addRoute("mainBox", item);
   });
 
   store.commit("changeGetterRouter", true)
 };
+
+const checkPermission = (item) => {
+  if(item.requireAdmin) {
+    return store.state.userInfo.role === 1
+  }
+  return true
+}
 
 export default router;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <SideMain></SideMain>
+      <SideMenu></SideMenu>
       <el-container direction="vertical">
         <TopHeader></TopHeader>
         <router-view></router-view>
@@ -11,5 +11,5 @@
 </template>
 <script setup>
 import TopHeader from "@/components/mainBox/TopHeader"
-import SideMain from "@/components/mainBox/SideMain"
+import SideMenu from "@/components/mainBox/SideMenu"
 </script>
