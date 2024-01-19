@@ -7,6 +7,7 @@ import NewsList from "@/views/news-manage/NewsList.vue"
 import ProductAdd from "@/views/product-manage/ProductAdd.vue"
 import ProductList from "@/views/product-manage/ProductList.vue"
 import NotFound from "@/views/notfound/NotFound.vue"
+import NewsEdit from "@/views/news-manage/NewsEdit.vue"
 
 
 const routes = [
@@ -35,6 +36,10 @@ const routes = [
   {
     path: "/news-manage/newslist",
     component: NewsList
+  },
+  {
+    path: "/news-manage/editnews/:id",
+    component: NewsEdit
   },
   {
     path: '/product-manage/addproduct',
