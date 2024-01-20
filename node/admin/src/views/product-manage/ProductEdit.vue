@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-page-header
-      content="添加产品"
-      icon=""
+      content="编辑产品"
       title="产品管理"
+      @back="handleBank"
     ></el-page-header>
 
     <el-form
@@ -27,20 +27,50 @@
         <Upload :avatar="productForm.cover" @changeFile="handleChange"></Upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm()">添加产品</el-button>
+        <el-button type="primary" @click="submitForm()">更新产品</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
-
 <script setup>
-import { ref, reactive } from "vue";
-import Upload from "@/components/upload/Upload.vue";
-import { upload } from "@/util/upload"
-import { useRouter } from "vue-router"
-const router = useRouter()
+import { ref, reactive, onMounted } from "vue"
+import Upload from "@/components/upload/Upload.vue"
+import {upload} from "@/util/upload"
+import { useRouter, useRoute } from "vue-router"
+import axios from "axios"
+const router = useRouter() 
+const route = useRoute()
 
-const productFormRef = ref();
+const handleBank = () => {
+  router.back()
+}
+
+const getData = async () => {
+  const res = await axios.get(`/adminapi/product/list/${route.params.id}`)
+  productForm.value = res.data.data[0]
+}
+// 取当前页面数据
+onMounted(() => {
+  getData()
+})
+
+const submitForm = () => {
+  productFormRef.value.validate(async (valid) => {
+    if(valid) {
+      await upload("/adminapi/product/list", productForm.value)
+      router.back()
+    }
+  })
+}
+
+const handleChange = (file) => {
+  productForm.value.cover = URL.createObjectURL(file)
+  productForm.value.file = file
+}
+
+
+
+const productFormRef = ref()
 let productForm = ref({
   title: "",
   introduction: "",
@@ -49,20 +79,6 @@ let productForm = ref({
   file: null,
 });
 
-const handleChange = (file) => {
-  productForm.value.cover = URL.createObjectURL(file)
-  productForm.value.file = file
-}
-
-const submitForm = () => {
-  productFormRef.value.validate(async (valid) => {
-    if(valid) {
-      await upload("/adminapi/product/add", productForm.value)
-      router.push(`/product-manage/productlist`)
-    }
-  })
-};
-
 const productRules = reactive({
   title: [{ required: true, message: "请输入产品名称", trigger: "blur" }],
   introduction: [{ required: true, message: "请输入简要描述", trigger: "blur" }],
@@ -70,5 +86,8 @@ const productRules = reactive({
   cover: [{ required: true, message: "请上传产品图片", trigger: "blur" }],
 });
 
-
 </script>
+
+<style scoped lang="scss"> 
+
+</style>
